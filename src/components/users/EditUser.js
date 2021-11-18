@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const EditUser = () => {
-  let history = useHistory();
+  let history = useNavigate();
   const { id } = useParams();
   const [user, setUser] = useState({
     name: "",

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { Component } from "react";
 
-const About = () => {
+class About extends Component {
+  render() {
   return (
-    <div className="container">
+    <div className="App">
       <div className="py-4">
         <h1>About Page</h1>
         <p className="lead">
@@ -22,6 +23,7 @@ const About = () => {
       </div>
     </div>
   );
+  }
 };
 
 export default About;
