@@ -11,12 +11,11 @@ import {
   Routes
 } from "react-router-dom";
 import NotFound from "./components/pages/NotFound";
-import AddUser from "./components/users/AddUser";
-import EditUser from "./components/users/EditUser";
-import User from "./components/users/User";
+import AddUser from "./components/orders/AddUser";
+import EditUser from "./components/orders/EditUser";
+import Order from "./components/orders/Order";
 
-class App extends Component {
-  render() {
+function App(props) {
   return (
     <Router>
       <div className="App">
@@ -27,13 +26,12 @@ class App extends Component {
           <Route path="/contact" element={<Contact />} />
           <Route path="/users/add" element={<AddUser />} />
           <Route path="/users/edit/:id" element={<EditUser />} />
-          <Route path="/users/:id" element={<User />} />
+          <Route path="/orders/:id" element={<Order />} />
           <Route element={<NotFound />} />
         </Routes>
       </div>
     </Router>
   );
-  }
 }
 
 export default App;
