@@ -1,0 +1,13 @@
+.photo {
+  height: 200px;
+  width: 500px;
+}
+
+.button {
+  float: right;
+  text-align: center;
+  background-color: #0d6efd; /* Green */
+  border: none;
+  color: white;
+  cursor: pointer;
+}

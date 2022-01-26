@@ -39,11 +39,12 @@ const Order = () => {
   }, []);
 
   const config = {
-    headers: { Authorization: `Bearer f6634051-6a12-4d25-9ea8-2a13f5688575` }
+    headers: { Authorization: `Bearer e27f766e-6b3e-4904-88fd-7feb4eeb38d8` }
   };
 
   const loadUser = async () => {
-    const res = await axios.get(`http://143.198.96.88:3000/v1/orders/${id}`, config);
+    console.log("id", id)
+    const res = await axios.get(`http://texert.kz:3000/v1/orders/${id}`, config);
     console.log("res", res.data)
     setUser(res.data.data);
   };
@@ -56,18 +57,13 @@ const Order = () => {
       <h1 className="display-4">Order Id: {id}</h1>
       <hr />
       <ul className="list-group w-50">
-        <li className="list-group-item">name: {order.name}</li>
-        <li className="list-group-item">description: {order.description}</li>
+        <li className="list-group-item">name: {order.product.name}</li>
+        <li className="list-group-item">description: {order.product.description}</li>
         <li className="list-group-item">date: {order.createdAt}</li>
         <li className="list-group-item">status: {order.status}</li>
-        <li className="list-group-item">image: <img src={ order.image } /></li>
-        <li className="list-group-item">cost: {order.netCost}</li>
-        <li className="list-group-item">location: {order.location}</li>
-        <li className="list-group-item">delivery time: {order.deliveryTime}</li>
-        <li className="list-group-item">delivery cost: {order.deliveryCost}</li>
-        <li className="list-group-item">warranty: {order.warranty}</li>
-        <li className="list-group-item">quality: {order.quality}</li>
-        <li className="list-group-item">total cost: {order.totalCost}</li>
+        <li className="list-group-item">image: <img src={ order.product.image } /></li>
+        <li className="list-group-item">cost: {order.product.primeCost}</li>
+        <li className="list-group-item">location: {order.product.totalCost}</li>
       </ul>
     </div>
   );

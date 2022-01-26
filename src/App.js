@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import "./App.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.css";
-import Home from "./components/pages/Home";
+import FileUpload from "./components/fileUpload/FileUpload";
 import About from "./components/pages/About";
 import Contact from "./components/pages/Contact";
+import Products from "./components/pages/Products";
 import Navbar from "./components/layout/Navbar";
 import {
   BrowserRouter as Router,
@@ -11,9 +12,9 @@ import {
   Routes
 } from "react-router-dom";
 import NotFound from "./components/pages/NotFound";
-import AddUser from "./components/orders/AddUser";
-import EditUser from "./components/orders/EditUser";
-import Order from "./components/orders/Order";
+import AddProduct from "./components/products/AddProduct";
+import EditProduct from "./components/products/EditProduct";
+import Product from "./components/products/Product";
 
 function App(props) {
   return (
@@ -21,12 +22,13 @@ function App(props) {
       <div className="App">
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<FileUpload />} />
+          <Route path="/products" element={<Products />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/users/add" element={<AddUser />} />
-          <Route path="/users/edit/:id" element={<EditUser />} />
-          <Route path="/orders/:id" element={<Order />} />
+          <Route path="/products/add" element={<AddProduct />} />
+          <Route path="/products/edit/:id" element={<EditProduct />} />
+          <Route path="/products/:id" element={<Product />} />
           <Route element={<NotFound />} />
         </Routes>
       </div>
