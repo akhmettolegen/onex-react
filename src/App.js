@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import "./App.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.css";
-import FileUpload from "./components/fileUpload/FileUpload";
+import Home from "./components/pages/Home";
 import About from "./components/pages/About";
 import Contact from "./components/pages/Contact";
 import Products from "./components/pages/Products";
+import Login from "./components/auth/Login";
+import useToken from "./components/pages/useToken";
 import Navbar from "./components/layout/Navbar";
 import {
   BrowserRouter as Router,
@@ -16,13 +18,20 @@ import AddProduct from "./components/products/AddProduct";
 import EditProduct from "./components/products/EditProduct";
 import Product from "./components/products/Product";
 
-function App(props) {
+
+function App() {
+  const { token, setToken } = useToken();
+
+  if(!token) {
+    return <Login setToken={setToken} />
+  }
+
   return (
     <Router>
       <div className="App">
         <Navbar />
         <Routes>
-          <Route path="/" element={<FileUpload />} />
+          <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />

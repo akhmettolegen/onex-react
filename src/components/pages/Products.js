@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./styles.css";
+import useToken from "./useToken";
 
 const Products = () => {
   const [products, setProduct] = useState([]);
@@ -10,17 +11,16 @@ const Products = () => {
     loadProducts();
   }, []);
 
-  const config = {
-    headers: { Authorization: `Bearer 2d99dae6-b67c-45c8-ad7c-4538ddd83ebf` }
-  };
+  const { token, setToken } = useToken();
+  const headers = { Authorization: `Bearer ${token}` }
 
   const loadProducts = async () => {
-    const result = await axios.get("http://texert.kz:3000/v1/products", config);
+    const result = await axios.get("http://texert.kz:3000/v1/products", {headers});
     setProduct(result.data.data);
   };
 
   const deleteProduct = async id => {
-    await axios.delete(`http://texert.kz:3000/v1/products/${id}`, config);
+    await axios.delete(`http://texert.kz:3000/v1/products/${id}`, {headers});
     loadProducts();
   };
 

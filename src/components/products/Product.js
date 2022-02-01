@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import useToken from "../pages/useToken";
 
 const Product = () => {
   const [product, setProduct] = useState({});
@@ -10,8 +11,10 @@ const Product = () => {
     loadProduct();
   }, []);
 
+  const { token, setToken } = useToken();
+
   const config = {
-    headers: { Authorization: `Bearer 2d99dae6-b67c-45c8-ad7c-4538ddd83ebf` }
+    headers: { Authorization: `Bearer ${token}` }
   };
 
   const loadProduct = async () => {

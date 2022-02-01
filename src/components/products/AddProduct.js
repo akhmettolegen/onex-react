@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
-import FileUpload from "../fileUpload/FileUpload";
+import useToken from "../pages/useToken";
 
 const AddProduct = () => {
-  let history = useNavigate();
-
   const [file, setFile] = useState('');
 
   const handleFileSelect = (e) => {
@@ -28,8 +26,10 @@ const AddProduct = () => {
     setProduct({ ...product, [e.target.name]: e.target.type === 'number' ? parseFloat(e.target.value) : e.target.value });
   };
 
+  const { token, setToken } = useToken();
+
   const config = {
-    headers: { Authorization: `Bearer 2d99dae6-b67c-45c8-ad7c-4538ddd83ebf` }
+    headers: { Authorization: `Bearer ${token}` }
   };
 
   const onSubmit = async e => {
@@ -43,7 +43,7 @@ const AddProduct = () => {
       resFile = await axios.post('http://texert.kz:3000/v1/files/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer 2d99dae6-b67c-45c8-ad7c-4538ddd83ebf`
+          Authorization: `Bearer ${token}`
         },
       })
     } catch(error) {
