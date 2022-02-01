@@ -10,6 +10,8 @@ const FileUpload = () => {
   const [message, setMessage] = useState('');
   const [uploadPercentage, setUploadPercentage] = useState(0);
 
+  let res;
+
   const onChange = e => {
     setFile(e.target.files[0]);
     setFilename(e.target.files[0].name);
@@ -21,10 +23,10 @@ const FileUpload = () => {
     formData.append('file', file);
 
     try {
-      const res = await axios.post('http://texert.kz:3000/v1/files/upload', formData, {
+      res = await axios.post('http://texert.kz:3000/v1/files/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer 1dc32c63-785b-49a4-b89d-9911de91d390`
+          Authorization: `Bearer c273e391-79d0-449d-8d81-e5902b54e7a6`
         },
         onUploadProgress: progressEvent => {
           setUploadPercentage(
@@ -51,6 +53,8 @@ const FileUpload = () => {
       }
       setUploadPercentage(0)
     }
+
+    console.log("res: ", res)
   };
 
   return (

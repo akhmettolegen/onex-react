@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "./styles.css";
 
-const Home = () => {
+const Products = () => {
   const [products, setProduct] = useState([]);
 
   useEffect(() => {
@@ -11,7 +11,7 @@ const Home = () => {
   }, []);
 
   const config = {
-    headers: { Authorization: `Bearer 1dc32c63-785b-49a4-b89d-9911de91d390` }
+    headers: { Authorization: `Bearer 2d99dae6-b67c-45c8-ad7c-4538ddd83ebf` }
   };
 
   const loadProducts = async () => {
@@ -81,4 +81,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Products;

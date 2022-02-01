@@ -11,7 +11,7 @@ const Product = () => {
   }, []);
 
   const config = {
-    headers: { Authorization: `Bearer 1dc32c63-785b-49a4-b89d-9911de91d390` }
+    headers: { Authorization: `Bearer 2d99dae6-b67c-45c8-ad7c-4538ddd83ebf` }
   };
 
   const loadProduct = async () => {
