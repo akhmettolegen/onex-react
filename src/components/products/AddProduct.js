@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import useToken from "../pages/useToken";
+import Select from 'react-select';
 
 const AddProduct = () => {
   const [file, setFile] = useState('');
@@ -10,6 +11,11 @@ const AddProduct = () => {
     console.log("selected files: ", e.target.files[0])
     setFile(e.target.files[0]);
   }
+
+  const options = [
+    { value: 'INACTIVE', label: 'Inactive' },
+    { value: 'ACTIVE', label: 'Active' }
+  ];
 
   const [product, setProduct] = useState({
     name: "",
@@ -23,7 +29,12 @@ const AddProduct = () => {
   
   const { name, description, status, image, soldCount, primeCost, totalCost } = product;
   const onInputChange = e => {
-    setProduct({ ...product, [e.target.name]: e.target.type === 'number' ? parseFloat(e.target.value) : e.target.value });
+    if (e.target) {
+      setProduct({ ...product, [e.target.name]: e.target.type === 'number' ? parseFloat(e.target.value) : e.target.value });
+    } else {
+      setProduct({...product, ["status"]:e.value})
+    }
+    
   };
 
   const { token, setToken } = useToken();
@@ -82,14 +93,13 @@ const AddProduct = () => {
             />
           </div>
           <div className="form-group">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter product status"
-              name="status"
-              value={status}
-              onChange={e => onInputChange(e)}
-            />
+            <label>
+              Pick status:
+              <Select
+                options={options}
+                onChange={e => onInputChange(e)}
+              />
+            </label>
           </div>
           <div className="form-group">
             <input
