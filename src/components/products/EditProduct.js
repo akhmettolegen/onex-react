@@ -1,47 +1,81 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from 'axios'
+import useToken from "../pages/useToken";
+import Select from 'react-select';
 
-const EditUser = () => {
-  let history = useNavigate();
+const EditProduct = () => {
+  const [file, setFile] = useState('');
+
+  const handleFileSelect = (e) => {
+    console.log("selected files: ", e.target.files[0])
+    setFile(e.target.files[0]);
+  }
+
+  const options = [
+    { value: 'INACTIVE', label: 'Inactive' },
+    { value: 'ACTIVE', label: 'Active' }
+  ];
+
+  const [product, setProduct] = useState({});
+
   const { id } = useParams();
-  const [user, setUser] = useState({
-    name: "",
-    username: "",
-    email: "",
-    phone: "",
-    website: ""
-  });
+  const { token, setToken } = useToken();
 
-  const { name, username, email, phone, website } = user;
-  const onInputChange = e => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }
   };
 
-  useEffect(() => {
-    loadUser();
-  }, []);
+  const getProductById = async () => {
+    const res = await axios.get(`http://texert.kz:3000/v1/products/${id}`, config);
+    setProduct(res.data.data);
+  };
+
+  
+  const { name, description, status, image, soldCount, primeCost, totalCost } = product;
+  const onInputChange = e => {
+    if (e.target) {
+      setProduct({ ...product, [e.target.name]: e.target.type === 'number' ? parseFloat(e.target.value) : e.target.value });
+    } else {
+      setProduct({...product, ["status"]:e.value})
+    }
+  };
 
   const onSubmit = async e => {
     e.preventDefault();
-    await axios.put(`http://localhost:3003/users/${id}`, user);
-    history.push("/");
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    if (file) {
+      let resFile
+      try {
+        resFile = await axios.post('http://texert.kz:3000/v1/files/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`
+          },
+        })
+      } catch(error) {
+        console.log("error on upload file: ", error)
+      }
+
+      product.image = resFile.data.data.url
+    }
+
+    await axios.put(`http://texert.kz:3000/v1/products/${id}`, product, config);
   };
 
-  const loadUser = async () => {
-    const result = await axios.get(`http://localhost:3003/users/${id}`);
-    setUser(result.data);
-  };
   return (
     <div className="container">
       <div className="w-75 mx-auto shadow p-5">
-        <h2 className="text-center mb-4">Edit A User</h2>
+        <h2 className="text-center mb-4">Add A Product</h2>
         <form onSubmit={e => onSubmit(e)}>
           <div className="form-group">
             <input
               type="text"
               className="form-control form-control-lg"
-              placeholder="Enter Your Name"
+              placeholder="Enter product name"
               name="name"
               value={name}
               onChange={e => onInputChange(e)}
@@ -51,47 +85,75 @@ const EditUser = () => {
             <input
               type="text"
               className="form-control form-control-lg"
-              placeholder="Enter Your Username"
-              name="username"
-              value={username}
+              placeholder="Enter product description"
+              name="description"
+              value={description}
               onChange={e => onInputChange(e)}
             />
           </div>
           <div className="form-group">
-            <input
-              type="email"
-              className="form-control form-control-lg"
-              placeholder="Enter Your E-mail Address"
-              name="email"
-              value={email}
-              onChange={e => onInputChange(e)}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter Your Phone Number"
-              name="phone"
-              value={phone}
-              onChange={e => onInputChange(e)}
-            />
+            <label>
+              Pick status:
+              <Select
+                options={options}
+                onChange={e => onInputChange(e)}
+              />
+            </label>
           </div>
           <div className="form-group">
             <input
               type="text"
               className="form-control form-control-lg"
-              placeholder="Enter Your Website Name"
-              name="website"
-              value={website}
+              placeholder="Enter product image"
+              name="image"
+              value={image}
               onChange={e => onInputChange(e)}
             />
           </div>
-          <button className="btn btn-warning btn-block">Update User</button>
+          <div className="form-group">
+            <input
+              type="number" 
+              className="form-control form-control-lg"
+              placeholder="Enter product prime cost"
+              name="soldCount"
+              value={soldCount}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="number" 
+              step="0.1"
+              className="form-control form-control-lg"
+              placeholder="Enter product prime cost"
+              name="primeCost"
+              value={primeCost}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="number" 
+              step="0.1"
+              className="form-control form-control-lg"
+              placeholder="Enter product total cost"
+              name="totalCost"
+              value={totalCost}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+          <div>
+            <input 
+              type="file" 
+              className='custom-file-input'
+              onChange={handleFileSelect}
+            />
+          </div>
+          <button className="btn btn-primary btn-block">Edit Product</button>
         </form>
       </div>
     </div>
   );
 };
 
-export default EditUser;
+export default EditProduct;
