@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
-import useToken from "../pages/useToken";
+import useToken from "../auth/UseToken";
 import Select from 'react-select';
 
 const AddProduct = () => {
   const [file, setFile] = useState('');
 
   const handleFileSelect = (e) => {
-    console.log("selected files: ", e.target.files[0])
     setFile(e.target.files[0]);
   }
 

@@ -6,7 +6,7 @@ import About from "./components/pages/About";
 import Contact from "./components/pages/Contact";
 import Products from "./components/pages/Products";
 import Login from "./components/auth/Login";
-import useToken from "./components/pages/useToken";
+import useToken from "./components/auth/UseToken";
 import Navbar from "./components/layout/Navbar";
 import {
   BrowserRouter as Router,
@@ -21,6 +21,7 @@ import Product from "./components/products/Product";
 
 function App() {
   const { token, setToken } = useToken();
+  console.log("token: ", token)
 
   if(!token) {
     return <Login setToken={setToken} />

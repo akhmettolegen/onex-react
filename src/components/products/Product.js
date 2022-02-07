@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import useToken from "../pages/useToken";
+import useToken from "../auth/UseToken";
 
 const Product = () => {
   const [product, setProduct] = useState({});

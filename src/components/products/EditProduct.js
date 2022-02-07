@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios'
-import useToken from "../pages/useToken";
+import useToken from "../auth/UseToken";
 import Select from 'react-select';
 
 const EditProduct = () => {
